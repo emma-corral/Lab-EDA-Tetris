@@ -1,12 +1,12 @@
 #include "pieces.h"
 
 void init_piece(Piece *p){
-	char FondoFicha[4][4] = {
-    	{'.', '.', '.', '.'},
-    	{'.', '.', '.', '.'},
-    	{'.', '.', '.', '.'},
-    	{'.', '.', '.', '.'}
-	};
+	char FondoFicha[4][4];
+	for (int i = 0; i < 4; i++) {
+        	for (int j = 0; j < 4; j++) {
+            		FondoFicha[i][j] = '.';
+        	}
+	};    
 }
 
 void print_piece(Piece p){
