@@ -7,7 +7,10 @@
 #define PIECE_SIZE 4
 
 typedef struct{
-	// ToDo in LAB 1 - define data structure
+	char name;
+	char board[PIECE_SIZE][PIECE_SIZE];
+	int rows;
+	int cols;
 } Piece;
 
 // Lab 1 - initialize, print, rotate and make pieces
