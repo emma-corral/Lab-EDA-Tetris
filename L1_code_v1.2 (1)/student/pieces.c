@@ -23,7 +23,14 @@ void rotate_counter_clockwise(Piece *p){
 }
 
 Piece make_O(){
-    // ToDo in LAB 1
+	Piece piece;
+	init_piece(&piece);
+	piece.name= 'O'; piece.rows = 2; piece.cols= 2;
+	piece.boarde[0][0] = '#';
+	piece.board[0][1]= '#';
+	piece.board[1][0] ='#';
+	piece.board[1][1] = '#';
+	return piece;
 }
 
 Piece make_I(){
@@ -32,7 +39,14 @@ Piece make_I(){
 
 
 Piece make_S(){
-	// ToDo in LAB 1
+	Piece piece;
+	init_piece(&piece);
+	piece.name = 'S'; piece.rows = 2; piece.cols= 3;
+	piece.board[0][1]= '#';
+	piece.board[0][2] = '#';
+	piece.board[1][0] = '#';
+	piece.board[1][1] = '#';
+	return piece
 }
 
 
@@ -49,6 +63,13 @@ Piece make_J(){
 }
 
 Piece make_T(){
-    // ToDo in LAB 1
+    	Piecce piece;
+	init_piece(&piece);
+	piece.name = 'T'; piece.rows = 2; piece.cols= 3;
+	piece.board[0][0]= '#';
+	piece.board[0][1]= '#';
+	piece.board[0][2]= '#';
+	piece.board[1][1]= '#';
+	return piece
 }
 
