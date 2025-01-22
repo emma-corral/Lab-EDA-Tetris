@@ -26,7 +26,7 @@ Piece make_O(){
 	Piece piece;
 	init_piece(&piece);
 	piece.name= 'O'; piece.rows = 2; piece.cols= 2;
-	piece.boarde[0][0] = '#';
+	piece.board[0][0] = '#';
 	piece.board[0][1]= '#';
 	piece.board[1][0] ='#';
 	piece.board[1][1] = '#';
@@ -54,7 +54,7 @@ Piece make_S(){
 	piece.board[0][2] = '#';
 	piece.board[1][0] = '#';
 	piece.board[1][1] = '#';
-	return piece
+	return piece;
 }
 
 
@@ -105,6 +105,6 @@ Piece make_T(){
 	piece.board[0][1]= '#';
 	piece.board[0][2]= '#';
 	piece.board[1][1]= '#';
-	return piece
+	return piece;
 }
 
