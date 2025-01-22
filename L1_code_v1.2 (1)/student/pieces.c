@@ -34,7 +34,15 @@ Piece make_O(){
 }
 
 Piece make_I(){
-    // ToDo in LAB 1
+	Piece piece;		
+	init_piece(&piece);
+	piece.name = 'I';
+	piece.rows = 3;
+	piece.cols = 1;
+	piece.board[0][0] = '#';
+	piece.board[1][0] = '#';
+	piece.board[2][0] = '#';
+	return piece;
 }
 
 
@@ -51,19 +59,46 @@ Piece make_S(){
 
 
 Piece make_Z(){
-    // ToDo in LAB 1
+	Piece piece;
+	init_piece(&piece);
+	piece.name = 'Z';
+	piece.rows = 2;
+	piece.cols = 3;
+	piece.board[0][0] = '#';
+	piece.board[0][1] = '#';
+	piece.board[1][1] = '#';
+	piece.board[1][2] = '#';
+	return piece;
 }
 
 Piece make_L(){
-    // ToDo in LAB 1
+	Piece piece;
+	init_piece(&piece);
+	piece.name = 'L';
+	piece.rows = 3;
+	piece.cols = 2;
+	piece.board[0][0] = '#';
+	piece.board[1][0] = '#';
+	piece.board[2][0] = '#';
+	piece.board[2][1] = '#';
+	return piece;
 }
 
 Piece make_J(){
-    // ToDo in LAB 1
+	Piece piece;
+	init_piece(&piece);
+	piece.name = 'J';
+	piece.rows = 3;
+	piece.cols = 2;
+	piece.board[0][1] = '#';
+	piece.board[1][1] = '#';
+	piece.board[2][0] = '#';
+	piece.board[2][1] = '#';
+	return piece;
 }
 
 Piece make_T(){
-    	Piecce piece;
+    	Piece piece;
 	init_piece(&piece);
 	piece.name = 'T'; piece.rows = 2; piece.cols= 3;
 	piece.board[0][0]= '#';
