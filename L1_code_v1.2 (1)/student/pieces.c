@@ -1,7 +1,12 @@
 #include "pieces.h"
 
 void init_piece(Piece *p){
-	// ToDo in LAB 1
+	char FondoFicha[4][4] = {
+    	{'.', '.', '.', '.'},
+    	{'.', '.', '.', '.'},
+    	{'.', '.', '.', '.'},
+    	{'.', '.', '.', '.'}
+	};
 }
 
 void print_piece(Piece p){
