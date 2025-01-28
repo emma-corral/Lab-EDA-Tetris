@@ -148,7 +148,10 @@ int remove_completed_lines(char board[MAX_ROWS][MAX_COLUMNS]){
 /********************************************************/
 
 void init_game_state(GameState *game_state){
-    // ToDo in LAB 1
+	game_state->score = 0;
+	for(int r=0; r<MAX_ROWS; ++r)
+		for(int c=0; c<MAX_COLUMNS; ++c)
+			game_state->board[r][c] = '.';
 }
 
 
