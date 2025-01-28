@@ -162,11 +162,21 @@ bool is_terminal(char board[MAX_ROWS][MAX_COLUMNS]){
 
 
 void move_piece(char board[MAX_ROWS][MAX_COLUMNS], PieceInfo *piece_info, int option){
-    // ToDo in LAB 1
+	int dir = 0;
+	if(option==MOVE_LEFT) dir=-1;
+	else if(option==MOVE_RIGHT) dir=1;
+	else{ printf("[ERROR] Invalid move option %d.\n", option); }
+	
+	// Check if there are no collisions... (add condition here)
+	piece_info->at_col += dir;
 }
 
 void rotate_piece(char board[MAX_ROWS][MAX_COLUMNS], PieceInfo *piece_info, int option){
-    // ToDo in LAB 1
+	if(option==ROTATE_CW) rotate_clockwise(&(piece_info->p));
+	else if(option==ROTATE_CCW) rotate_counter_clockwise(&(piece_info->));
+	else{ prinf("[ERROR] Invalid rotation option %d.\n", option); }
+
+	//Check for collisions... (if there's a collision, move it back to its original position)
 }
 /********************************************************/
 /******* LAB 1 - functions to program (end here) ********/
