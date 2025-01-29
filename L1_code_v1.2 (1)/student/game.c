@@ -148,35 +148,64 @@ int remove_completed_lines(char board[MAX_ROWS][MAX_COLUMNS]){
 /********************************************************/
 
 void init_game_state(GameState *game_state){
-	game_state->score = 0;
+    game_state->score = 0;
 	for(int r=0; r<MAX_ROWS; ++r)
 		for(int c=0; c<MAX_COLUMNS; ++c)
 			game_state->board[r][c] = '.';
+    get_new_random_piece(game_state);        
+    // to do in lab 1        
 }
 
 
+
 bool is_terminal(char board[MAX_ROWS][MAX_COLUMNS]){
+    for(int r = 0; r < 4; ++r) {  // Check only the top 4 rows
+        for(int c = 0; c < MAX_COLUMNS; ++c) {
+            if(board[r][c] == '#'){ 
+                return true; // Game over
+            }    
+        }
+    }
+    
     // ToDo in LAB 1
-    return false;
+    return false;  // Game can continue
 }
 
 
 void move_piece(char board[MAX_ROWS][MAX_COLUMNS], PieceInfo *piece_info, int option){
-	int dir = 0;
-	if(option==MOVE_LEFT) dir=-1;
-	else if(option==MOVE_RIGHT) dir=1;
-	else{ printf("[ERROR] Invalid move option %d.\n", option); }
-	
-	// Check if there are no collisions... (add condition here)
-	piece_info->at_col += dir;
+    int dir = 0;
+    if (option == MOVE_LEFT) dir = -1;
+    else if (option == MOVE_RIGHT) dir = 1;
+    else { printf("[ERROR] Invalid move option %d.\n", option); return; }
+
+    // Check if there are no collisions...
+    piece_info->at_col += dir;
+    if (is_collision(board, piece_info)) {
+        piece_info->at_col -= dir;
+        return; // Exit if the piece cannot move left/right
+    }
+     // Move the piece down by one row
+    piece_info->at_row++;
+
+    // Check for collisions after moving down
+    if (is_collision(board, piece_info)) {
+        // Revert the downward movement if there is a collision
+        piece_info->at_row--;
+    }
+    // ToDo in LAB 1
 }
 
 void rotate_piece(char board[MAX_ROWS][MAX_COLUMNS], PieceInfo *piece_info, int option){
-	if(option==ROTATE_CW) rotate_clockwise(&(piece_info->p));
-	else if(option==ROTATE_CCW) rotate_counter_clockwise(&(piece_info->));
-	else{ prinf("[ERROR] Invalid rotation option %d.\n", option); }
-
-	//Check for collisions... (if there's a collision, move it back to its original position)
+    if(option == ROTATE_CW) rotate_clockwise(&(piece_info->p));
+    else if(option == ROTATE_CCW) rotate_counter_clockwise(&(piece_info->p));
+    else{ printf("[ERROR] Invalid rotation %d.\n", option); }
+    //Check for collisions... (if there's a collision, move back to its original position)
+    if (is_collision(board, piece_info)) {
+        // Move back to its original position if there is a collision
+        if (option == ROTATE_CW) rotate_counter_clockwise(&(piece_info->p));
+        else if (option == ROTATE_CCW) rotate_clockwise(&(piece_info->p));
+    }
+    // ToDo in LAB 1
 }
 /********************************************************/
 /******* LAB 1 - functions to program (end here) ********/
