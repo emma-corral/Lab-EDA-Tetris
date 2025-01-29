@@ -1,12 +1,12 @@
 #include "pieces.h"
 
 void init_piece(Piece *p){
-	char FondoFicha[4][4];
+    char FondoFicha[4][4];
 	for (int i = 0; i < 4; i++) {
-        	for (int j = 0; j < 4; j++) {
-            		FondoFicha[i][j] = '.';
-        	}
-	};    
+        for (int j = 0; j < 4; j++) {
+            FondoFicha[i][j] = '.';
+        }
+    };    
 }
 
 void print_piece(Piece p){
@@ -20,25 +20,30 @@ void print_piece(Piece p){
 }
 
 void rotate_clockwise(Piece *p){
+    // ToDo in LAB 1
+	Piece temp;
+	temp = *p;
 	//Define an empty temporary variable to store the rotated piece using init_piece(...).
-	for(c=0;i< PIEZE_SIZE; ++c){
-		for(r=0;i< PIEZE_SIZE; ++r){
+	for(int c=0; c< PIECE_SIZE; ++c){
+		for(int r=0; r< PIECE_SIZE; ++r){
 			temp.board[c][p->rows-1-r] = p->board[r][c];
 		}
 	}
-	*p = temp
+	*p = temp;
 }
 
 void rotate_counter_clockwise(Piece *p){
+    // ToDo in LAB 1
+	Piece temp;
+	temp = *p;
 	//Define an empty temporary variable to store the rotated piece using init_piece(...).
-	for(c=0;i< PIEZE_SIZE; ++c){
-		for(r=0;i< PIEZE_SIZE; ++r){
-			temp.board[r][c] = p−>board[p−>rows−1−c][r];
+	for( int c=0;c< PIECE_SIZE; ++c){
+		for(int r=0;r< PIECE_SIZE; ++r){
+			temp.board[r][c] = p->board[p->rows-1-c][r];
 		}
 	}
-	*p = temp
+	*p = temp;
 }
-
 
 Piece make_O(){
 	Piece piece;
@@ -116,7 +121,7 @@ Piece make_J(){
 }
 
 Piece make_T(){
-    	Piece piece;
+    Piece piece;
 	init_piece(&piece);
 	piece.name = 'T'; piece.rows = 2; piece.cols= 3;
 	piece.board[0][0]= '#';
@@ -125,4 +130,3 @@ Piece make_T(){
 	piece.board[1][1]= '#';
 	return piece;
 }
-
