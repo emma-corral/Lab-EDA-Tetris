@@ -20,12 +20,25 @@ void print_piece(Piece p){
 }
 
 void rotate_clockwise(Piece *p){
-    // ToDo in LAB 1
+	//Define an empty temporary variable to store the rotated piece using init_piece(...).
+	for(c=0;i< PIEZE_SIZE; ++c){
+		for(r=0;i< PIEZE_SIZE; ++r){
+			temp.board[c][p->rows-1-r] = p->board[r][c];
+		}
+	}
+	*p = temp
 }
 
 void rotate_counter_clockwise(Piece *p){
-    // ToDo in LAB 1
+	//Define an empty temporary variable to store the rotated piece using init_piece(...).
+	for(c=0;i< PIEZE_SIZE; ++c){
+		for(r=0;i< PIEZE_SIZE; ++r){
+			temp.board[r][c] = p−>board[p−>rows−1−c][r];
+		}
+	}
+	*p = temp
 }
+
 
 Piece make_O(){
 	Piece piece;
