@@ -7,10 +7,10 @@
 #define PIECE_SIZE 4
 
 typedef struct{
-	char name;
-	char board[PIECE_SIZE][PIECE_SIZE];
-	int rows;
-	int cols;
+	char name;		           //To had the name of the piece
+	char board[PIECE_SIZE][PIECE_SIZE];// To draw the piece
+	int rows;                          // The number of rows of the piece
+	int cols;                          // The number of columns of the piece
 } Piece;
 
 // Lab 1 - initialize, print, rotate and make pieces
