@@ -5,8 +5,8 @@
 
 /// LAB 1 - data structure
 typedef struct {
-    int best_score;               // Best score achieved across all games
-    GameState current_game_state; // Current game state, including the board, score, and current piece
+    int best_score;               // It stores the best score
+    GameState current_game_state; // To stores the current game(with the board and the pieces)
 } Session;
 
 /// LAB 1 - functions
