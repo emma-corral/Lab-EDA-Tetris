@@ -6,7 +6,7 @@
 #include "pieces.h"
 
 /// ToDo in LAB 1 - define macros MAX_ROWS and MAX_COLUMNS
-#define MAX_ROWS 15
+#define MAX_ROWS 15         //define dimentions of the board (15x12)
 #define MAX_COLUMNS 12
 
 typedef struct{
@@ -14,14 +14,15 @@ typedef struct{
     Piece p;    
     int at_row; 
     int at_col; 
-} PieceInfo;
+} PieceInfo;          // Define the data structure of the position of the piece
 
 typedef struct{
     // ToDo in LAB 1 - define data structure
     char board[MAX_ROWS][MAX_COLUMNS]; 
     int score; 
     PieceInfo current_piece;
-} GameState;
+} GameState;          // Define the data structure of the position of all the pieces in the board and the score
+
 
 /// Implemented functions
 void print_game_state(GameState *gs);
