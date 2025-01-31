@@ -161,7 +161,7 @@ void init_game_state(GameState *game_state){
 bool is_terminal(char board[MAX_ROWS][MAX_COLUMNS]){
     for(int r = 0; r < 4; ++r) {  // Check only the top 4 rows
         for(int c = 0; c < MAX_COLUMNS; ++c) {
-            if(board[r][c] == '#'){ 
+            if(board[r][c] == 'X'){ 
                 return true; // Game over
             }    
         }
