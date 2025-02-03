@@ -1,49 +1,62 @@
 #include "pieces.h"
 
 void init_piece(Piece *p){
-    char FondoFicha[4][4];
-	for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 4; j++) {
-            FondoFicha[i][j] = '.';         //It creates the board(background) of the piece (4x4) with '.'
+    for (int i = 0; i < PIECE_SIZE; i++) {
+        for (int j = 0; j < PIECE_SIZE; j++) {
+            p->board[i][j] = '.';  // Initialize the board(background) of the piece (4x4) with '.'
         }
-    };    
+    }
+    p->rows = 0;
+    p->cols = 0;
 }
+
 
 void print_piece(Piece p){
     printf("Name: %c; Size: %dx%d\n", p.name, p.rows, p.cols);
     for(int i=0; i<PIECE_SIZE; ++i){
         for(int j=0; j<PIECE_SIZE; ++j){
-            printf("%c", p.board[i][j]);                       //It prints the piece
+            printf("%c", p.board[i][j]);     //It prints the piece
         }
         printf("\n");
     }
 }
 
-void rotate_clockwise(Piece *p){
-    // ToDo in LAB 1
-	Piece temp;
-	temp = *p;
+
+void rotate_clockwise(Piece *p) {
+	// ToDo in LAB 1
 	//Define an empty temporary variable to store the rotated piece using init_piece(...).
-	for(int c=0; c< PIECE_SIZE; ++c){
-		for(int r=0; r< PIECE_SIZE; ++r){
-			temp.board[c][p->rows-1-r] = p->board[r][c];     //it iterates between all columns and rows (concatenated for loops) in order to rotate it
-		}
-	}
-	*p = temp;
+    Piece temp;
+    init_piece(&temp);  // Initialize the temp board
+    temp.rows = p->cols;
+    temp.cols = p->rows;
+    temp.name = p->name;
+
+    for (int i = 0; i < p->rows; i++) {
+        for (int j = 0; j < p->cols; j++) {
+            temp.board[j][p->rows - 1 - i] = p->board[i][j];  //it iterates between all columns and rows (concatenated for loops) in order to rotate it
+        }
+    }
+    *p = temp;   //"saves" it kinda
 }
 
-void rotate_counter_clockwise(Piece *p){
-    // ToDo in LAB 1
-	Piece temp;
-	temp = *p;
+
+void rotate_counter_clockwise(Piece *p) {
+	// ToDo in LAB 1
 	//Define an empty temporary variable to store the rotated piece using init_piece(...).
-	for( int c=0;c< PIECE_SIZE; ++c){
-		for(int r=0;r< PIECE_SIZE; ++r){
-			temp.board[r][c] = p->board[p->rows-1-c][r];     //it iterates between all columns and rows (concatenated for loops) in order to rotate it
-		}
-	}
-	*p = temp;
+    Piece temp;
+    init_piece(&temp);  // Initialize the temporal board
+    temp.rows = p->cols;
+    temp.cols = p->rows;
+    temp.name = p->name;
+
+    for (int i = 0; i < p->rows; i++) {
+        for (int j = 0; j < p->cols; j++) {
+            temp.board[p->cols - 1 - j][i] = p->board[i][j];  //it iterates between all columns and rows (concatenated for loops) in order to rotate it
+        }
+    }
+    *p = temp;
 }
+
 
 Piece make_O(){
 	Piece piece;
