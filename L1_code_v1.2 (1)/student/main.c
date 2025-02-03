@@ -31,7 +31,7 @@ void run_game(Session *session){
         run_turn(game_state, game_option);
 
         // 4. Update scores
-        session->best_score = max(session->best_score, game_state->score);
+        session->best_score = myMax(session->best_score, game_state->score);
         
         // 5. Add new number
         finish_game = is_terminal(game_state->board);
@@ -43,6 +43,7 @@ void run_game(Session *session){
 
 void new_game(Session *session){
     restart_session_game_state(session);
+    ///state(session);
     run_game(session);
 }
 
