@@ -15,6 +15,6 @@ void read_filename(char* filename){
     }while(res != 1);
 }
 
-int max(int a, int b){
+int myMax(int a, int b){
     return (a>b?a:b);
 }
