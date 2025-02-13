@@ -255,3 +255,12 @@ void free_game_state(GameState *game_state){
 
 }
 
+void set_default_game_state(GameState *gs) {
+    gs->score = 0;
+    for(int i; i < gs->columns; i++) {
+        for(int j; j < gs->rows; j++) {
+            gs->board[i][j] = '.';
+        }
+    }
+    
+}
