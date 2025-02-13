@@ -104,3 +104,36 @@ int main(){
     init_session(&session);
     run(&session);
 }
+
+void run(Session *session)
+{
+    int option;
+    do
+    {
+        print_menu();
+        do
+        {
+            printf("Enter an integer (%d-%d): ", NEW_GAME, EXIT);
+            option = read_int();
+        } while (option < NEW_GAME || option > EXIT);
+
+        switch (option)
+        {
+        case NEW_GAME:
+            new_game(session);
+            break;
+        case SAVE_GAME:
+            save_game(session);
+            break;
+        case LOAD_GAME:
+            load_game(session);
+            break;
+        case RESUME_GAME:
+            resume_game(session);
+            break;
+        case EXIT:
+            free_game_state(&(session->current_game_state)); // LAB 2 - free the game state
+            break;
+        }
+    } while (option != EXIT);
+}
