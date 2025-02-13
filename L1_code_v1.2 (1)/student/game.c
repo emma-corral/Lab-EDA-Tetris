@@ -244,3 +244,14 @@ void make_board(GameState *game_state){
             game_state->board[r] = (char*) malloc(sizeof(char) * game_state->columns);
     }
 }
+
+void free_game_state(GameState *game_state){
+    if(game_state->board != NULL){
+        for(int r=0; r<game_state->rows; ++r){
+            free(game_state->board[r]);  // free all columns for this row
+        }
+        free(game_state->board); // free all rows
+    }
+
+}
+
