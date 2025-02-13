@@ -231,3 +231,16 @@ void run_turn(GameState *game_state, int option){
 	}
 }
 
+void make_board(GameState *game_state){
+    // Allocate/Reallocate a board, assuming the rows and cols are already given
+    if(game_state->board == NULL){
+        game_state->board = (char**) malloc(sizeof(char*) * game_state->rows);
+        for(int r=0; r<game_state->rows; ++r)
+            game_state->board[r] = (char*) malloc(sizeof(char) * game_state->columns);
+    }
+    else{
+        game_state->board = (char**) realloc(game_state->board, sizeof(char*) * game_state->rows);
+        for(int r=0; r<game_state->rows; ++r)
+            game_state->board[r] = (char*) malloc(sizeof(char) * game_state->columns);
+    }
+}
