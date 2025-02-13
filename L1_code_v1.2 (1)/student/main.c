@@ -47,10 +47,55 @@ void new_game(Session *session){
     run_game(session);
 }
 
-void save_game(Session *session){
-    // ToDo in Lab 2
-}
+void save_game(Session *session)
+{
+    // 1. If no errors, open given filename in writing-mode
+    printf("Enter a filename: ");
+    char filename[MAX_STR_LENGTH];
+    read_filename(filename);
 
+    FILE *file = fopen(filename, "w");
+    if (file == NULL)
+    {
+        printf("Error opening file %s in writing-mode\n", filename);
+        return;
+    }
+
+    // 2. Print GameState to opened file
+    GameState *game_aux = &(session->current_game_state);
+    Piece *piece = &(game_aux->current_piece.p);
+    // Print score
+    fprintf(file, "Score: %d\n\n", game_aux->score);
+
+    // Print piece
+    fprintf(file, "PieceInfo:\n");
+    fprintf(file, "at_row: %d\n", game_aux->current_piece.at_row);
+    fprintf(file, "at_col: %d\n", game_aux->current_piece.at_col);
+    fprintf(file, "name: %c\n", piece->name);
+    fprintf(file, "rows: %d\n", piece->rows);
+    fprintf(file, "cols: %d\n", piece->cols);
+    for(int row=0; row<PIECE_SIZE; ++row){
+        for(int col=0; col<PIECE_SIZE; ++col){
+            fprintf(file, "%c", piece->board[row][col]);
+        }
+        fprintf(file, "\n");
+    }
+    fprintf(file, "\n");
+
+    // Print board
+    fprintf(file, "Board:\n");
+    fprintf(file, "rows: %d\n", game_aux->rows);
+    fprintf(file, "cols: %d\n", game_aux->columns);
+    for (int row = 0; row < game_aux->rows; ++row){
+        for (int col = 0; col < game_aux->columns; ++col){
+            fprintf(file, "%c", game_aux->board[row][col]);
+        }
+        fprintf(file, "\n");
+    }
+
+    // 3. Close the file
+    fclose(file);
+}
 void load_game(Session *session){
     // ToDo in Lab 2
 }
@@ -105,35 +150,3 @@ int main(){
     run(&session);
 }
 
-void run(Session *session)
-{
-    int option;
-    do
-    {
-        print_menu();
-        do
-        {
-            printf("Enter an integer (%d-%d): ", NEW_GAME, EXIT);
-            option = read_int();
-        } while (option < NEW_GAME || option > EXIT);
-
-        switch (option)
-        {
-        case NEW_GAME:
-            new_game(session);
-            break;
-        case SAVE_GAME:
-            save_game(session);
-            break;
-        case LOAD_GAME:
-            load_game(session);
-            break;
-        case RESUME_GAME:
-            resume_game(session);
-            break;
-        case EXIT:
-            free_game_state(&(session->current_game_state)); // LAB 2 - free the game state
-            break;
-        }
-    } while (option != EXIT);
-}
