@@ -7,6 +7,6 @@ int read_int();
 
 void read_filename(char* filename); 
 
-int max(int a, int b); 
+int myMax(int a, int b); 
 
 #endif
