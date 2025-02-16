@@ -18,7 +18,7 @@ void print_options(){
     printf("\t%d. Quit game\n", QUIT_GAME);
 }
 
-bool is_valid_option(int option){
+bool is_valid_option(int option){ 
     return ((MOVE_LEFT <= option) && (option<=QUIT_GAME));
 }
 
@@ -221,14 +221,18 @@ void run_turn(GameState *game_state, int option){
 	// Move down if possible, otherwise block the piece and remove
     // the completed lines, aggregating them to the current score.
     // If it is not in a terminal state, add a new random piece to the board.
-	p_inf->at_row++;
-	if(is_collision(game_state->board, p_inf)){
-		p_inf->at_row--;
-		block_current_piece(game_state);
+    int original_row = p_inf->at_row;
+    p_inf->at_row++;
+    
+    if (is_collision(game_state)) {  // Now passing the whole game_state
+        p_inf->at_row--;  // Undo the row increment due to collision
+        block_current_piece(game_state);
         game_state->score += remove_completed_lines(game_state->board, game_state->rows, game_state->columns);
-        if(!is_terminal(game_state->board))
+        
+        if (!is_terminal(game_state)) {
             get_new_random_piece(game_state);
-	}
+        }
+    }
 }
 
 void make_board(GameState *gs){
@@ -260,12 +264,4 @@ void restart_game_state(GameState *gs){
     gs->columns = read_int();
     make_board(gs);
     set_default_game_state(gs);
-}
-
-void init_game_state(GameState *game_state){
-    game_state->board = NULL;
-    game_state->rows = MIN_ROWS;
-    game_state->columns = MIN_COLUMNS;
-    make_board(game_state);
-    set_default_game_state(game_state);
 }
