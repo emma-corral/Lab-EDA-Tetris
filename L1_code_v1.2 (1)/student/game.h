@@ -6,8 +6,8 @@
 #include "pieces.h"
 
 /// ToDo in LAB 1 - define macros MAX_ROWS and MAX_COLUMNS
-#define MIN_ROWS 10
-#define MIN_COLUMNS 6
+#define MIN_ROWS 10   //we have changed all the places where MAX_ROWS appeared with MIN_ROWS which is the minimum of rows the user can chose for the board
+#define MIN_COLUMNS 6  //we have done the same but for MAX_COLS
 
 typedef struct{
     // ToDo in LAB 1 - define data structure
