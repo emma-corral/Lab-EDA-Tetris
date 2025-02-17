@@ -23,7 +23,7 @@ bool is_valid_option(int option){
 }
 
 
-void print_line(int columns){
+void print_line(int columns){   // we refactored it
     for(int c=-1; c<columns+1; ++c) 
     	printf("-");    
     printf("\n");
@@ -101,7 +101,7 @@ void block_current_piece(GameState *game_state){
                 game_state->board[row+i][col+j] = 'X';
 }
 
-bool is_collision(GameState *gs){
+bool is_collision(GameState *gs){  // we refactored it
     Piece *piece =&gs->current_piece.p;
     int p_row_size = piece->rows;
     int p_col_size = piece->cols;
@@ -148,7 +148,7 @@ int remove_completed_lines(char **board, int rows, int columns){
 /********************************************************/
 
 
-void init_game_state(GameState *game_state){
+void init_game_state(GameState *game_state){   //We refactored it
     game_state->board = NULL;
     game_state->rows = MIN_ROWS;
     game_state->columns = MIN_COLUMNS;
@@ -159,7 +159,7 @@ void init_game_state(GameState *game_state){
 
 
 
-bool is_terminal(GameState *gs){
+bool is_terminal(GameState *gs){   // we refactored it
     for(int r = 0; r < 4; ++r) {  // Check only the top 4 rows
         for(int c = 0; c < gs->columns; ++c) {
             if(gs->board[r][c] == 'X'){ 
@@ -173,7 +173,7 @@ bool is_terminal(GameState *gs){
 }    // It check the first rows and sees if there is a piece to determinate if is game over
 
 
-void move_piece(GameState *gs, int option){
+void move_piece(GameState *gs, int option){    // we refactored it
     int dir = 0;
     if (option == MOVE_LEFT) dir = -1;
     else if (option == MOVE_RIGHT) dir = 1;
@@ -191,7 +191,7 @@ void move_piece(GameState *gs, int option){
     // ToDo in LAB 1
 }     // This is for move the piece to the right or left
 
-void rotate_piece(GameState *gs, int option){
+void rotate_piece(GameState *gs, int option){   // we refactored it
     if(option == ROTATE_CW) rotate_clockwise(&(gs->current_piece.p));
     else if(option == ROTATE_CCW) rotate_counter_clockwise(&(gs->current_piece.p));
     else{ printf("[ERROR] Invalid rotation %d.\n", option); }
@@ -236,32 +236,32 @@ void run_turn(GameState *game_state, int option){
 }
 
 void make_board(GameState *gs){
-    gs->board = (char**)malloc(gs->rows * sizeof(char*));
-    for(int i = 0; i < gs->rows; ++i)
+    gs->board = (char**)malloc(gs->rows * sizeof(char*));   //keeps space for the array of pointers of the board in game state (for the memory)
+    for(int i = 0; i < gs->rows; ++i)   //goes though the rows to allocate their memory
         gs->board[i] = (char*)malloc(gs->columns * sizeof(char));
 }
 
-void free_game_state(GameState *gs){
+void free_game_state(GameState *gs){   //check if the board has been allocated before trying to free it
     if(gs->board != NULL){
-        for(int i = 0; i < gs->rows; ++i)
+        for(int i = 0; i < gs->rows; ++i) //free memory for all the rows
             free(gs->board[i]);
-        free(gs->board);
+        free(gs->board);  //free the memory for the array of row pointers
     }
 }
 
-void set_default_game_state(GameState *gs){
-    gs->score = 0;
-    for(int r=0; r<gs->rows; ++r)
+void set_default_game_state(GameState *gs){  
+    gs->score = 0;    //initialize the game score to 0
+    for(int r=0; r<gs->rows; ++r)  //goes throug every position in the board to put '.'
         for(int c=0; c<gs->columns; ++c)
             gs->board[r][c] = '.';
-    get_new_random_piece(gs);
+    get_new_random_piece(gs);  //it gets a random piece
 }
 
-void restart_game_state(GameState *gs){
-    printf("Enter number of rows: ");
+void restart_game_state(GameState *gs){   //it asks again the dimensions of the board and it creates a new board with the imputed dimensions
+    printf("Enter number of rows (minimum of 10): ");
     gs->rows = read_int();
-    printf("Enter number of columns: ");
+    printf("Enter number of columns (minimum of 6): ");
     gs->columns = read_int();
-    make_board(gs);
+    make_board(gs);   //creates the board
     set_default_game_state(gs);
 }
