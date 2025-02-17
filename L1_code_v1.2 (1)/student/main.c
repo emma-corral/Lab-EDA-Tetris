@@ -34,7 +34,7 @@ void run_game(Session *session){
         session->best_score = myMax(session->best_score, game_state->score);
         
         // 5. Add new number
-        finish_game = is_terminal(game_state);
+        finish_game = is_terminal(game_state); //we refactored it
     }while(!finish_game);
 
     printf("*** GAME OVER ***\n");
@@ -47,50 +47,50 @@ void new_game(Session *session){
     run_game(session);
 }
 
-void save_game(Session *session){
+void save_game(Session *session){  //Saves the current game state into a text file
     // ToDo in Lab 2
     char filename[MAX_STR_LENGTH];
-    printf("Enter filename to save: ");
+    printf("Enter a name for the file: ");
     read_filename(filename);
-    FILE* file = fopen(filename, "w");
+    FILE* file = fopen(filename, "w");   //creates file with the entered name and enters in it in the write mode
     if(file == NULL){
-        printf("Error opening file!\n");
+        printf("Error opening file!\n");  //in case of error
         return;
     }
-    fprintf(file, "Score: %d\n\n", session->current_game_state.score);
-    PieceInfo *p = &session->current_game_state.current_piece;
-    fprintf(file, "Piece at: %d %d\n", p->at_row, p->at_col);
+    fprintf(file, "Score: %d\n\n", session->current_game_state.score);  //writes in the file the score
+    PieceInfo *p = &session->current_game_state.current_piece;   //writes in the file all the info of the current piece
+    fprintf(file, "Piece at: %d %d\n", p->at_row, p->at_col);   
     fprintf(file, "Piece name: %c\n", p->p.name);
     fprintf(file, "Piece rows: %d\n", p->p.rows);
     fprintf(file, "Piece cols: %d\n", p->p.cols);
-    for(int i = 0; i < PIECE_SIZE; ++i){
+    for(int i = 0; i < PIECE_SIZE; ++i){   //prints the current piece
         for(int j = 0; j < PIECE_SIZE; ++j){
             fprintf(file, "%c", p->p.board[i][j]);
         }
         fprintf(file, "\n");
     }
-    fprintf(file, "\nBoard dimensions: %d %d\n", session->current_game_state.rows, session->current_game_state.columns);
-    for(int i = 0; i < session->current_game_state.rows; ++i){
+    fprintf(file, "\nBoard dimensions: %d %d\n", session->current_game_state.rows, session->current_game_state.columns);   //saves the rows and cols of the board
+    for(int i = 0; i < session->current_game_state.rows; ++i){   //creates the state of the board in the file
         for(int j = 0; j < session->current_game_state.columns; ++j){
             fprintf(file, "%c", session->current_game_state.board[i][j]);
         }
         fprintf(file, "\n");
     }
-    fclose(file);
+    fclose(file);  //closes the file
 }
 
 void load_game(Session *session){
     // ToDo in Lab 2
     char filename[MAX_STR_LENGTH];
-    printf("Enter filename to load: ");
+    printf("Enter filename to load: ");   //asks the name of the file where the game you want to play is
     read_filename(filename);
-    FILE* file = fopen(filename, "r");
+    FILE* file = fopen(filename, "r");  //enters the file in read mode
     if(file == NULL){
-        printf("Error opening file!\n");
+        printf("Error opening file!\n");  //if the file doesn't exist it gives this message
         return;
     }
-    fscanf(file, "Score: %d\n\n", &session->current_game_state.score);
-    PieceInfo *p = &session->current_game_state.current_piece;
+    fscanf(file, "Score: %d\n\n", &session->current_game_state.score); //reads the score
+    PieceInfo *p = &session->current_game_state.current_piece;   //reads and saves the information of the current piece
     fscanf(file, "Piece at: %d %d\n", &p->at_row, &p->at_col);
     fscanf(file, "Piece name: %c\n", &p->p.name);
     fscanf(file, "Piece rows: %d\n", &p->p.rows);
@@ -101,7 +101,7 @@ void load_game(Session *session){
         }
         fscanf(file, "\n");
     }
-    fscanf(file, "\nBoard dimensions: %d %d\n", &session->current_game_state.rows, &session->current_game_state.columns);
+    fscanf(file, "\nBoard dimensions: %d %d\n", &session->current_game_state.rows, &session->current_game_state.columns);  //reads and saves the current state of the board
     make_board(&session->current_game_state);
     for(int i = 0; i < session->current_game_state.rows; ++i){
         for(int j = 0; j < session->current_game_state.columns; ++j){
@@ -109,12 +109,12 @@ void load_game(Session *session){
         }
         fscanf(file, "\n");
     }
-    fclose(file);
+    fclose(file); //closes the file
 }
 
 void resume_game(Session *session){
     // ToDo in Lab 2
-    run_game(session);
+    run_game(session);  //runs the game of the current game state
 }
 
 void print_menu(){
@@ -152,7 +152,7 @@ void run(Session *session){
             resume_game(session);
             break;
         case EXIT:
-            free_game_state(&session->current_game_state);
+            free_game_state(&session->current_game_state);   //it errases the game state
             break;
         }
     }while(option != EXIT);
