@@ -1,0 +1,146 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Struct for a Client
+typedef struct {
+    char name[11]; // name of client is max 10 char + null terminator
+    int origin_floor;
+    int destination_floor;
+} Client;
+
+// Struct for an Elevator
+typedef struct {
+    int floor; // current floor
+    int num_clients; // number of clients in the elevator
+    Client *clients; // Pointer to array of clients in the elevator
+} Elevator;
+
+// Function prototypes
+void move(Elevator *elevator, int target_floor);
+void board(Elevator *elevator, Client *client);
+Client* serve(Elevator *elevator);
+void read_clients(const char *filename, Client **waiting_clients, int *num_clients);
+int find_nearest_client(Elevator *elevator, Client *waiting_clients, int num_waiting_clients);
+
+int main() {
+    Elevator elevator = {0, 0, NULL}; // Initialize the elevator at floor 0 with no clients
+    Client *waiting_clients = NULL; // Dynamic memory for waiting clients
+    int num_waiting_clients = 0; // Number of waiting clients
+
+    // Read clients from the file
+    read_clients("clients.txt", &waiting_clients, &num_waiting_clients);
+
+    // Process clients
+    while (num_waiting_clients > 0 || elevator.num_clients > 0) {
+        // Serve clients in the elevator first
+        Client *served_client = NULL;
+        while ((served_client = serve(&elevator)) != NULL) {
+            printf("Serving %s\n", served_client->name);
+            free(served_client);
+        }
+
+        if (elevator.num_clients == 0) {
+            // If the elevator is empty, find the nearest waiting client
+            int nearest_client_index = find_nearest_client(&elevator, waiting_clients, num_waiting_clients);
+            
+            if (nearest_client_index != -1) {
+                // Move the elevator to the floor of the nearest client
+                move(&elevator, waiting_clients[nearest_client_index].origin_floor);
+                
+                // Board the nearest client
+                board(&elevator, &waiting_clients[nearest_client_index]);
+                
+                // Remove the boarded client from the waiting list
+                for (int i = nearest_client_index; i < num_waiting_clients - 1; i++) {
+                    waiting_clients[i] = waiting_clients[i + 1];
+                }
+                num_waiting_clients--;
+                
+            }
+        } else {
+            // Move to the destination floor of the next client in the elevator
+            move(&elevator, elevator.clients[0].destination_floor);
+        }
+    }
+
+    // Free allocated memory
+    free(waiting_clients);
+
+    return 0;
+}
+
+// Function to read clients from a file
+void read_clients(const char *filename, Client **waiting_clients, int *num_clients) {
+    FILE *file = fopen(filename, "r");
+    if (!file) {
+        perror("Failed to open file");
+        exit(EXIT_FAILURE);
+    }
+
+    Client temp;
+    *num_clients = 0;
+
+    while (fscanf(file, "%10s %d %d", temp.name, &temp.origin_floor, &temp.destination_floor) == 3) {
+        *waiting_clients = realloc(*waiting_clients, (*num_clients + 1) * sizeof(Client));
+        (*waiting_clients)[*num_clients] = temp;
+        (*num_clients)++;
+    }
+
+    fclose(file);
+}
+
+// Function to move the elevator
+void move(Elevator *elevator, int target_floor) {
+    if (elevator->floor < target_floor) {
+        printf("Up %d\n", target_floor);
+    } else if (elevator->floor > target_floor) {
+        printf("Down %d\n", target_floor);
+    }
+    elevator->floor = target_floor;
+}
+
+// Function to board a client onto the elevator
+void board(Elevator *elevator, Client *client) {
+    if (elevator->floor == client->origin_floor) {
+        elevator->clients = realloc(elevator->clients, (elevator->num_clients + 1) * sizeof(Client));
+        elevator->clients[elevator->num_clients] = *client;
+        elevator->num_clients++;
+        printf("Boarding %s\n", client->name);
+    }
+}
+
+// Function to serve a client
+Client* serve(Elevator *elevator) {
+    for (int i = 0; i < elevator->num_clients; i++) {
+        if (elevator->clients[i].destination_floor == elevator->floor) {
+            Client *served_client = malloc(sizeof(Client));
+            *served_client = elevator->clients[i];
+            // Remove the served client from the elevator
+            for (int j = i; j < elevator->num_clients - 1; j++) {
+                elevator->clients[j] = elevator->clients[j + 1];
+            }
+            elevator->num_clients--;
+            elevator->clients = realloc(elevator->clients, elevator->num_clients * sizeof(Client));
+            return served_client;
+        }
+    }
+    return NULL;
+}
+
+// Auxiliary function to find the nearest client waiting for the elevator
+int find_nearest_client(Elevator *elevator, Client *waiting_clients, int num_waiting_clients) {
+    int nearest_index = -1;
+    int min_distance = 1000; // Assuming 1000 as a safe upper bound for building floors
+    
+    for (int i = 0; i < num_waiting_clients; i++) {
+        int distance = abs(elevator->floor - waiting_clients[i].origin_floor);
+        if (distance < min_distance) {
+            min_distance = distance;
+            nearest_index = i;
+        }
+    }
+
+    return nearest_index;
+}
+
